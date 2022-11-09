@@ -1,4 +1,5 @@
-import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Dimensions, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { firebase } from '../../firebaseConfig'
 import React, { useState } from 'react'
 import colors from '../colors/colors'
 
@@ -7,15 +8,30 @@ const height = Dimensions.get('window').height
 
 const Login = ({navigation}) => {
 
+  function handleRegister() {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredentials) => {
+      const user = userCredentials.user
+      alert('User Registered!')
+    })
+    .catch(error => alert(error.message))
+  }
+
   function handleSignIn() {
-    navigation.navigate('Home')
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((userCredentials) => {
+      const user = userCredentials.user
+      alert('You are logged!')
+      navigation.navigate('Home')
+    })
+    .catch(error => alert(error.message))
   }
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior='padding'>
 
       <View style={styles.loginWrapper}>
         <Text style={styles.loginTitle}>Car CRUD App</Text>
@@ -27,6 +43,7 @@ const Login = ({navigation}) => {
             placeholderTextColor={colors.white}
             value={email}
             onChangeText={(email) => setEmail(email)}
+            
           />
 
           <TextInput
@@ -36,15 +53,20 @@ const Login = ({navigation}) => {
             secureTextEntry
             value={password}
             onChangeText={(password) => setPassword(password)}
+            on
             />
         </View>
       
         <TouchableOpacity onPress={handleSignIn} style={styles.buttonLogin}>
           <Text style={styles.buttonLoginText}>Login</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleRegister} style={styles.buttonRegister}>
+          <Text style={styles.buttonRegisterText}>Register</Text>
+        </TouchableOpacity>
       </View>
 
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -74,7 +96,7 @@ const styles = StyleSheet.create({
   },
 
   inputEmail: {
-    marginTop: 40,
+    marginTop: 20,
     paddingHorizontal: 0,
     paddingVertical: 10,
     backgroundColor: colors.darkGray,
@@ -100,11 +122,26 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 91,
     borderRadius: 5,
-    marginTop: 25
+    marginTop: 15
+  },
+
+  buttonRegister: {
+    backgroundColor: colors.white,
+    borderWidth: 2,
+    borderColor: colors.blue,
+    paddingVertical: 15,
+    paddingHorizontal: 79,
+    borderRadius: 5,
+    marginTop: 10
   },
 
   buttonLoginText: {
     color: colors.white,
     fontWeight: 'bold'
-  }
+  },
+
+  buttonRegisterText: {
+    color: colors.blue,
+    fontWeight: 'bold'
+  },
 })

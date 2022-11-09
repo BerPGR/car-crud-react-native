@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { firebase } from '../../firebaseConfig'
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <View>
       <Text>Home</Text>
