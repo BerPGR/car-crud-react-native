@@ -9,22 +9,26 @@ const height = Dimensions.get('window').height
 const Login = ({navigation}) => {
 
   function handleRegister() {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+    /*firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredentials) => {
       const user = userCredentials.user
       alert('User Registered!')
     })
     .catch(error => alert(error.message))
+    */
+    navigation.navigate('Home')
   }
 
   function handleSignIn() {
-    firebase.auth().signInWithEmailAndPassword(email, password)
+    /*firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredentials) => {
       const user = userCredentials.user
       alert('You are logged!')
       navigation.navigate('Home')
     })
     .catch(error => alert(error.message))
+    */
+    navigation.navigate('Home')
   }
 
   const [email, setEmail] = useState('')
