@@ -11,7 +11,7 @@ const Home = ({navigation}) => {
 
   useEffect(() => {
     carsRef
-    .orderBy('createdAt', 'desc')
+    .orderBy('brand', 'desc')
     .onSnapshot(querySnapchot => {
       const cars = []
       querySnapchot.forEach(doc => {

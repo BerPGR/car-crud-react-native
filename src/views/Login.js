@@ -1,10 +1,12 @@
 import { Dimensions, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import * as Animatable from 'react-native-animatable'
 import { firebase } from '../../firebaseConfig'
 import React, { useState } from 'react'
 import colors from '../colors/colors'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
+
 
 const Login = ({navigation}) => {
 
@@ -37,7 +39,7 @@ const Login = ({navigation}) => {
   return (
     <KeyboardAvoidingView style={styles.container} behavior='padding'>
 
-      <View style={styles.loginWrapper}>
+      <Animatable.View style={styles.loginWrapper} delay={1500} animation='flipInX'>
         <Text style={styles.loginTitle}>Car CRUD App</Text>
         
         <View>
@@ -68,7 +70,7 @@ const Login = ({navigation}) => {
         <TouchableOpacity onPress={handleRegister} style={styles.buttonRegister}>
           <Text style={styles.buttonRegisterText}>Register</Text>
         </TouchableOpacity>
-      </View>
+      </Animatable.View>
 
     </KeyboardAvoidingView>
   )
