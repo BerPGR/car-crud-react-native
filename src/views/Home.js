@@ -1,12 +1,31 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import { firebase } from '../../firebaseConfig'
 import colors from '../colors/colors'
 import { Entypo } from '@expo/vector-icons'
 
 const Home = ({navigation}) => {
+
   const [cars, setCars] = useState([])
-  const carRef = firebase.firestore().collection('car')
+  const carsRef = firebase.firestore().collection('car')
+
+  useEffect(() => {
+    carsRef
+    .orderBy('createdAt', 'desc')
+    .onSnapshot(querySnapchot => {
+      const cars = []
+      querySnapchot.forEach(doc => {
+        const car = doc.data()
+        cars.push(car)
+      })
+    })
+    setCars(cars)
+  }, [])
+
+  const renderCars = ({item}) => {
+    <View style={styles.renderCarsWrapper}></View>
+  }
+  
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -14,18 +33,22 @@ const Home = ({navigation}) => {
         <SafeAreaView >
           <View style={styles.titleWrapper}>
             <Text style={styles.title}>Car`s list</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Addcar')}>
               <Entypo name='plus' size={24} color={colors.white}/>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
 
         <View style={styles.carsWrapper}>
-          {cars.length == 0 
+          {
+            cars.length == 0 
             ?
-            <Text>There's no cars in database</Text> 
+            <Text style={styles.noCarsText}>There are no cars in database</Text> 
             :
-            <Text>There are cars in database</Text>
+            <FlatList 
+              data={cars}
+              renderItem={renderCars}
+            />
           }
         </View>
       
@@ -59,5 +82,16 @@ const styles = StyleSheet.create({
   carsWrapper: {
     marginTop: 20,
     paddingHorizontal: 20
+  },
+
+  noCarsText: {
+    alignSelf: 'center',
+    marginTop: 10,
+    fontSize: 20,
+    color: colors.white
+  },
+
+  renderCarsWrapper: {
+
   }
 })
