@@ -39,11 +39,13 @@ const Addcar = ({navigation}) => {
     <KeyboardAvoidingView style={styles.container} behavior='padding'>
 			<ScrollView>
 		
-    		<SafeAreaView style={styles.headerWrapper}>
-					<TouchableOpacity onPress={() => navigation.goBack()}>
-						<Entypo name='chevron-left' size={30} color={colors.white}/>
-					</TouchableOpacity>
-    		  <Text style={styles.addTitle}>Add Car</Text>
+    		<SafeAreaView>
+					<View style={styles.headerWrapper}>
+						<TouchableOpacity onPress={() => navigation.goBack()}>
+							<Entypo name='chevron-left' size={30} color={colors.white}/>
+						</TouchableOpacity>
+    		  	<Text style={styles.addTitle}>Add Car</Text>
+					</View>
     		</SafeAreaView>
 
 				<View style={styles.inputsWrapper}>
@@ -111,7 +113,8 @@ const styles = StyleSheet.create({
 		headerWrapper: {
 			flexDirection: 'row',
 			alignItems: 'center',
-			justifyContent: 'space-between'
+			justifyContent: 'space-between',
+			marginTop: 20
 		},
 
     addTitle: {

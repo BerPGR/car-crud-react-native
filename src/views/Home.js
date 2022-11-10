@@ -51,7 +51,7 @@ const Home = ({navigation}) => {
             <View style={styles.renderCarsWrapper}>
               <Text style={styles.renderCarsTitle}>{item.document.brand} {item.document.model}</Text>
               <View style={styles.renderCarsButtonsWrapper}>
-                <TouchableOpacity onPress={() => navigation.navigate('Details')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Details', {item: item})}>
                   <Entypo name='eye' size={24} color={colors.white} />
                 </TouchableOpacity>
                 <TouchableOpacity>
