@@ -11,6 +11,7 @@ const Home = ({navigation}) => {
   
   useEffect(() => {
     carsRef
+    .orderBy('createdAt', 'asc')
     .onSnapshot(querySnapchot => {
       const cars = []
       querySnapchot.forEach(doc => {
@@ -24,49 +25,46 @@ const Home = ({navigation}) => {
     })
   }, [])
 
-  for (let i = 0; i < cars.length; i++) {
-    console.log(cars[i])
+  const deleteCar = (item) => {
+    carsRef.doc(item.id)
+    .delete()
+    .then(() => {
+      alert('Car deleted!')
+    })
+    .catch(error => alert(error))
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        
-        <SafeAreaView>
-          <View style={styles.titleWrapper}>
-            <Text style={styles.title}>Car`s list</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Addcar')}>
-              <Entypo name='plus' size={24} color={colors.white}/>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-
-        <FlatList 
+      <SafeAreaView>
+        <View style={styles.titleWrapper}>
+          <Text style={styles.title}>Car`s list</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Addcar')}>
+            <Entypo name='plus' size={24} color={colors.white}/>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+      
+      <FlatList 
           data={cars}
           renderItem={({item}) => (
             <View style={styles.renderCarsWrapper}>
               <Text style={styles.renderCarsTitle}>{item.document.brand} {item.document.model}</Text>
               <View style={styles.renderCarsButtonsWrapper}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Details')}>
                   <Entypo name='eye' size={24} color={colors.white} />
                 </TouchableOpacity>
-
                 <TouchableOpacity>
                   <Entypo name='edit' size={24} color={colors.white}/>
                 </TouchableOpacity>
-
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {deleteCar(item)}}>
                   <Entypo name='trash' size={24} color={colors.white} />
                 </TouchableOpacity>
               </View>
             </View>
           )}
-          style={styles.carsWrapper}
           horizontal={false}
         />
-      </ScrollView>
-
-      
     </View>
   )
 }
@@ -76,12 +74,13 @@ export default Home
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.darkGray
+    backgroundColor: colors.darkGray,
+    paddingHorizontal: 20
   },
 
   titleWrapper: {
     marginTop: 20,
-    paddingHorizontal: 20,
+    paddingBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
@@ -113,7 +112,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    borderRadius: 10
   },
 
   renderCarsTitle: {

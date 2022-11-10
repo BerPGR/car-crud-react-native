@@ -11,26 +11,23 @@ const height = Dimensions.get('window').height
 const Login = ({navigation}) => {
 
   function handleRegister() {
-    /*firebase.auth().createUserWithEmailAndPassword(email, password)
+    firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredentials) => {
       const user = userCredentials.user
       alert('User Registered!')
     })
     .catch(error => alert(error.message))
-    */
-    navigation.navigate('Home')
+    
   }
 
   function handleSignIn() {
-    /*firebase.auth().signInWithEmailAndPassword(email, password)
+    firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredentials) => {
       const user = userCredentials.user
       alert('You are logged!')
       navigation.navigate('Home')
     })
     .catch(error => alert(error.message))
-    */
-    navigation.navigate('Home')
   }
 
   const [email, setEmail] = useState('')
@@ -39,7 +36,7 @@ const Login = ({navigation}) => {
   return (
     <KeyboardAvoidingView style={styles.container} behavior='padding'>
 
-      <Animatable.View style={styles.loginWrapper} delay={1500} animation='flipInX'>
+      <Animatable.View style={styles.loginWrapper} delay={500} animation='flipInX'>
         <Text style={styles.loginTitle}>Car CRUD App</Text>
         
         <View>

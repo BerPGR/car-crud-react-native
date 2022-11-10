@@ -14,11 +14,13 @@ const Addcar = ({navigation}) => {
 
 	const addCar = () => {
 		if(brand.length > 0 && model.length > 0 && numberOfDoors && price > 1000){
+			const timestamp = firebase.firestore.FieldValue.serverTimestamp()
 			const data = {
 				brand: brand,
 				model: model,
 				numberOfDoors: numberOfDoors,
-				carPrice: price
+				carPrice: price,
+				createdAt: timestamp
 			}
 			carRef
 			.add(data)
