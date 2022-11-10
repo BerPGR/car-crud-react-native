@@ -8,29 +8,31 @@ const Home = ({navigation}) => {
 
   const [cars, setCars] = useState([])
   const carsRef = firebase.firestore().collection('car')
-
+  
   useEffect(() => {
     carsRef
-    .orderBy('brand', 'desc')
     .onSnapshot(querySnapchot => {
       const cars = []
       querySnapchot.forEach(doc => {
-        const car = doc.data()
-        cars.push(car)
+        const document = doc.data()
+        cars.push({
+          id: doc.id,
+          document
+        })
       })
+      setCars(cars)
     })
-    setCars(cars)
   }, [])
 
-  const renderCars = ({item}) => {
-    <View style={styles.renderCarsWrapper}></View>
+  for (let i = 0; i < cars.length; i++) {
+    console.log(cars[i])
   }
-  
+
   return (
     <View style={styles.container}>
       <ScrollView>
         
-        <SafeAreaView >
+        <SafeAreaView>
           <View style={styles.titleWrapper}>
             <Text style={styles.title}>Car`s list</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Addcar')}>
@@ -39,20 +41,32 @@ const Home = ({navigation}) => {
           </View>
         </SafeAreaView>
 
-        <View style={styles.carsWrapper}>
-          {
-            cars.length == 0 
-            ?
-            <Text style={styles.noCarsText}>There are no cars in database</Text> 
-            :
-            <FlatList 
-              data={cars}
-              renderItem={renderCars}
-            />
-          }
-        </View>
-      
+        <FlatList 
+          data={cars}
+          renderItem={({item}) => (
+            <View style={styles.renderCarsWrapper}>
+              <Text style={styles.renderCarsTitle}>{item.document.brand} {item.document.model}</Text>
+              <View style={styles.renderCarsButtonsWrapper}>
+                <TouchableOpacity>
+                  <Entypo name='eye' size={24} color={colors.white} />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                  <Entypo name='edit' size={24} color={colors.white}/>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                  <Entypo name='trash' size={24} color={colors.white} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+          style={styles.carsWrapper}
+          horizontal={false}
+        />
       </ScrollView>
+
+      
     </View>
   )
 }
@@ -92,6 +106,25 @@ const styles = StyleSheet.create({
   },
 
   renderCarsWrapper: {
+    height: 50,
+    width: '100%',
+    backgroundColor: colors.blue,
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20
+  },
 
+  renderCarsTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.white
+  },
+
+  renderCarsButtonsWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: 100
   }
 })
