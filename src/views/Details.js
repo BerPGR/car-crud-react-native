@@ -47,7 +47,7 @@ const Details = ({route, navigation}) => {
 				<View style={[styles.description, {marginTop: 20}]}>
 					<Text style={styles.title}>Price</Text>
 					<View style={styles.textContainer}>
-						<Text style={styles.info}>${car.document.carPrice}</Text>
+						<Text style={styles.info}>${Number(car.document.carPrice).toFixed(2)}</Text>
 					</View>
 				</View>
 			</View>

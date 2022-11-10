@@ -38,7 +38,7 @@ const Home = ({navigation}) => {
     <View style={styles.container}>
       <SafeAreaView>
         <View style={styles.titleWrapper}>
-          <Text style={styles.title}>Car`s list</Text>
+          <Text style={styles.title}>List of cars</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Addcar')}>
             <Entypo name='plus' size={24} color={colors.white}/>
           </TouchableOpacity>
@@ -54,7 +54,7 @@ const Home = ({navigation}) => {
                 <TouchableOpacity onPress={() => navigation.navigate('Details', {item: item})}>
                   <Entypo name='eye' size={24} color={colors.white} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Edit', {item: item})}>
                   <Entypo name='edit' size={24} color={colors.white}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {deleteCar(item)}}>
